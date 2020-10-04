@@ -1,0 +1,56 @@
+--  SeA_Redstore_binaries.gpr ---
+
+--  Copyright 2020 cnngimenez
+--
+--  Author: cnngimenez
+
+--  This program is free software: you can redistribute it and/or modify
+--  it under the terms of the GNU General Public License as published by
+--  the Free Software Foundation, either version 3 of the License, or
+--  (at your option) any later version.
+
+--  This program is distributed in the hope that it will be useful,
+--  but WITHOUT ANY WARRANTY; without even the implied warranty of
+--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--  GNU General Public License for more details.
+
+--  You should have received a copy of the GNU General Public License
+--  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-------------------------------------------------------------------------
+
+with "SeA.gpr";
+with "SeA_Redstore.gpr";
+
+project SeA_Redstore_binaries is
+  for Source_Dirs use (
+                       "src/binaries"
+                      );
+  for Object_Dir use ".objs/binaries_objs";
+  for Exec_Dir use "bin";
+  for Main use (
+               );
+
+  package Compiler is
+      for Default_Switches ("Ada") use
+        (
+         "-g", --  with Debugging symbols
+         --  "-gnatc", --  Semantic checkeng
+
+         --  All warnings and style checkings!
+         "-Wall", "-gnatwa", "-gnatVa", "-gnatVoi", "-gnatyy", "-gnatyB",
+         "-gnatyd", "-gnatyI", "-gnatyo", "-gnatyO", "-gnatyS",
+         "-gnatyu", "-gnatyx", "-gnaty4", "-gnatw_c", "-gnatwi", "-gnatwu",
+         --  Print full path
+         "-gnatef"
+        );
+  end Compiler;
+
+  package Binder is
+      for Default_Switches ("Ada") use
+        (
+         --  "-W8"
+        );
+  end Binder;
+
+end SeA_Redstore_Binaries;

@@ -1,0 +1,62 @@
+--  SeA_Redstore.gpr ---
+
+--  Copyright 2020 cnngimenez
+--
+--  Author: cnngimenez
+
+--  This program is free software: you can redistribute it and/or modify
+--  it under the terms of the GNU General Public License as published by
+--  the Free Software Foundation, either version 3 of the License, or
+--  (at your option) any later version.
+
+--  This program is distributed in the hope that it will be useful,
+--  but WITHOUT ANY WARRANTY; without even the implied warranty of
+--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--  GNU General Public License for more details.
+
+--  You should have received a copy of the GNU General Public License
+--  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-------------------------------------------------------------------------
+
+with "utilada_http.gpr";
+with "utilada_curl.gpr";
+
+with "SeA";
+
+library project SeA_Redstore is
+  for Library_Name use "SeA_Redstore";
+  for Library_Dir use "lib";
+  for Object_Dir use External ("OBJECT_DIR", ".objs/library_objs");
+
+  for Library_Kind use External ("LIBRARY_KIND", "relocatable");
+
+  for Source_Dirs use (
+                       "src",
+                       "src/redstore"
+                      );
+  package Compiler is
+      for Default_Switches ("Ada") use
+        (
+         "-g", --  with Debugging symbols
+         --  "-gnatc", --  Semantic checkeng
+
+         --  All warnings and style checkings!
+         "-Wall", "-gnatwa", "-gnatVa", "-gnatVoi", "-gnatyy", "-gnatyB",
+         "-gnatyd", "-gnatyI", "-gnatyo", "-gnatyO", "-gnatyS",
+         "-gnatyu", "-gnatyx", "-gnaty4", "-gnatw_c", "-gnatwi", "-gnatwu",
+         --  Requested by the linker to generate dynamic libraries.
+         --  "-fPIC"
+         --  Print full path
+         "-gnatef"
+        );
+  end Compiler;
+
+  package Binder is
+      for Default_Switches ("Ada") use
+      (
+        --  "-W8"
+        );
+  end Binder;
+
+end SeA_Redstore;

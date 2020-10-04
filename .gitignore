@@ -1,0 +1,7 @@
+*~
+#*
+makefile.setup
+bin/**
+.objs/**
+lib/**
+run/**

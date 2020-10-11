@@ -1,4 +1,4 @@
---  SeA_Redstore_binaries.gpr ---
+--  SeA_redstore_binaries.gpr ---
 
 --  Copyright 2020 cnngimenez
 --
@@ -19,8 +19,8 @@
 
 -------------------------------------------------------------------------
 
-with "SeA.gpr";
-with "SeA_Redstore.gpr";
+with "SeA_common.gpr";
+with "SeA_redstore.gpr";
 
 project SeA_Redstore_binaries is
   for Source_Dirs use (

@@ -22,7 +22,7 @@
 with "utilada_http.gpr";
 with "utilada_curl.gpr";
 
-with "SeA";
+with "SeA_common.gpr";
 
 library project SeA_Redstore is
   for Library_Name use "SeA_Redstore";

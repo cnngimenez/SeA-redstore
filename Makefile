@@ -57,16 +57,16 @@ uninstall: uninstall_library uninstall_program
 
 compile_programs:
 ifeq ($(LIBRARY_KIND),all)
-	gprbuild -p -P SeA_Redstore_binaries.gpr -XLIBRARY_KIND=static -XLIBRARY_TYPE=static -XOBJECT_DIR=".objs/library_static_objs" 
+	gprbuild -p -P SeA_redstore_binaries.gpr -XLIBRARY_KIND=static -XLIBRARY_TYPE=static -XOBJECT_DIR=".objs/library_static_objs" 
 else
-	gprbuild -p -P SeA_Redstore_binaries.gpr -XLIBRARY_KIND=$(LIBRARY_KIND) -XLIBRARY_TYPE=$(LIBRARY_KIND)
+	gprbuild -p -P SeA_redstore_binaries.gpr -XLIBRARY_KIND=$(LIBRARY_KIND) -XLIBRARY_TYPE=$(LIBRARY_KIND)
 endif
 
 install_programs:
-	gprinstall -p SeA_Redstore_binaries.gpr --prefix=$(prefix)
+	gprinstall -p SeA_redstore_binaries.gpr --prefix=$(prefix) -XLIBRARY_KIND=$(LIBRARY_KIND) -XLIBRARY_TYPE=$(LIBRARY_KIND)
 
 clean_programs:
-	gprclean SeA_Redstore_binaries.gpr
+	-gprclean SeA_redstore_binaries.gpr
 
 uninstall_programs:
 	gprinstall --uninstall --prefix=$(prefix) turtle
@@ -75,19 +75,19 @@ uninstall_programs:
 
 compile_library:
 ifeq ($(LIBRARY_KIND),all)
-	gprbuild -p -P SeA_Redstore.gpr -XLIBRARY_KIND=static -XLIBRARY_TYPE=static -XOBJECT_DIR=".objs/library_static_objs"
-	gprbuild -p -P SeA_Redstore.gpr -XLIBRARY_KIND=relocatable -XLIBRARY_TYPE=relocatable -XOBJECT_DIR=".objs/library_relocatable_objs"
+	gprbuild -p -P SeA_redstore.gpr -XLIBRARY_KIND=static -XLIBRARY_TYPE=static -XOBJECT_DIR=".objs/library_static_objs"
+	gprbuild -p -P SeA_redstore.gpr -XLIBRARY_KIND=relocatable -XLIBRARY_TYPE=relocatable -XOBJECT_DIR=".objs/library_relocatable_objs"
 else
-	gprbuild -p -P SeA_Redstore.gpr -XLIBRARY_KIND=$(LIBRARY_KIND) -XLIBRARY_TYPE=$(LIBRARY_KIND)
+	gprbuild -p -P SeA_redstore.gpr -XLIBRARY_KIND=$(LIBRARY_KIND) -XLIBRARY_TYPE=$(LIBRARY_KIND)
 endif
 
 clean_library:
-	gprclean SeA_Redstore.gpr -XLIBRARY_KIND=static -XLIBRARY_TYPE=static -XOBJECT_DIR=".objs/library_static_objs"
-	gprclean SeA_Redstore.gpr -XLIBRARY_KIND=relocatable -XLIBRARY_KIND=relocatable -XOBJECT_DIR=".objs/library_relocatable_objs"
-	gprclean SeA_Redstore.gpr
+	-gprclean SeA_redstore.gpr -XLIBRARY_KIND=static -XLIBRARY_TYPE=static -XOBJECT_DIR=".objs/library_static_objs"
+	-gprclean SeA_redstore.gpr -XLIBRARY_KIND=relocatable -XLIBRARY_KIND=relocatable -XOBJECT_DIR=".objs/library_relocatable_objs"
+	-gprclean SeA_redstore.gpr
 
 install_library:
-	gprinstall -p -P SeA_Redstore.gpr --prefix=$(prefix)
+	gprinstall -p -P SeA_redstore.gpr --prefix=$(prefix) -XLIBRARY_KIND=$(LIBRARY_KIND) -XLIBRARY_TYPE=$(LIBRARY_KIND)
 
 uninstall_library:
 	gprinstall --uninstall --prefix=$(prefix) turtle_lib

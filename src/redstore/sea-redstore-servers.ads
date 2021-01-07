@@ -1,4 +1,4 @@
---  redstore_server.ads ---
+--  sea-redstore-servers.ads ---
 
 --  Copyright 2020 cnngimenez
 --
@@ -32,6 +32,8 @@ package SeA.Redstore.Servers is
     --  URI: The protocol, host y port. Example: http://example.com:8080
     procedure Initialize (Server : in out Server_Type;
                           Host_URI : String);
+
+    procedure Query (Server : in out Server_Type; Query_Str : String);
 
     --  Raises Redstore_Answer_Error when the GET status received is not a
     --  between 200 and 299.

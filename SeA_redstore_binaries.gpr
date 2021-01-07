@@ -19,6 +19,7 @@
 
 -------------------------------------------------------------------------
 
+with "matreshka_league.gpr";
 with "SeA_common.gpr";
 with "SeA_redstore.gpr";
 
@@ -28,8 +29,9 @@ project SeA_Redstore_binaries is
                       );
   for Object_Dir use ".objs/binaries_objs";
   for Exec_Dir use "bin";
-  for Main use (
-               );
+  for Main use ("send_ttl.adb",
+                "query.adb"
+                );
 
   package Compiler is
       for Default_Switches ("Ada") use

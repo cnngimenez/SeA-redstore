@@ -108,6 +108,32 @@ package body SeA.Redstore.Servers is
         end if;
     end Insert_TTL;
 
+    procedure Query (Server : in out Server_Type; Query_Str : String) is
+        Redstore_Client : Util.Http.Clients.Client;
+        Response : Util.Http.Clients.Response;
+
+        Uri : constant String := To_String (Server.Host_URI) & "/sparql";
+        Form : Util.Http.Clients.Form_Data;
+
+        use Util.Serialize.IO.Form;
+    begin
+        Util.Http.Clients.Initialize (Form, Query_Str'Length + 500);
+        Write_Attribute (Output_Stream (Form),
+                         "query", Query_Str);
+
+        Redstore_Client.Post (Uri, Form, Response);
+
+        Server.Last_Response_Status := Response.Get_Status;
+        Server.Last_Response_Body := To_Unbounded_String (Response.Get_Body);
+
+        if Response.Get_Status < 200 or else Response.Get_Status >= 300 then
+            raise Redstore_Answer_Error with
+              "The redstore server answered with error status: "
+                & Response.Get_Status'Image & " "
+                & Response.Get_Body;
+        end if;
+    end Query;
+
     procedure Set_Graph (Server : in out Server_Type;
                          Graph : String) is
     begin

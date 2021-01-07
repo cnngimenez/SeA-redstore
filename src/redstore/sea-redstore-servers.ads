@@ -33,7 +33,9 @@ package SeA.Redstore.Servers is
     procedure Initialize (Server : in out Server_Type;
                           Host_URI : String);
 
-    procedure Query (Server : in out Server_Type; Query_Str : String);
+    procedure Query (Server : in out Server_Type; Query_Str : String;
+                     Format : String := "xml";
+                     Lang : String := "laqrs");
 
     --  Raises Redstore_Answer_Error when the GET status received is not a
     --  between 200 and 299.

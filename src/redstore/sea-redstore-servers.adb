@@ -108,7 +108,9 @@ package body SeA.Redstore.Servers is
         end if;
     end Insert_TTL;
 
-    procedure Query (Server : in out Server_Type; Query_Str : String) is
+    procedure Query (Server : in out Server_Type; Query_Str : String;
+                     Format : String := "xml";
+                     Lang : String := "laqrs") is
         Redstore_Client : Util.Http.Clients.Client;
         Response : Util.Http.Clients.Response;
 
@@ -120,7 +122,10 @@ package body SeA.Redstore.Servers is
         Util.Http.Clients.Initialize (Form, Query_Str'Length + 500);
         Write_Attribute (Output_Stream (Form),
                          "query", Query_Str);
-
+        Write_Attribute (Output_Stream (Form),
+                         "format", Format);
+        Write_Attribute (Output_Stream (Form),
+                         "lang", Lang);
         Redstore_Client.Post (Uri, Form, Response);
 
         Server.Last_Response_Status := Response.Get_Status;

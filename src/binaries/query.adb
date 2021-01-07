@@ -23,6 +23,8 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 with Ada.Strings.Unbounded;
 use Ada.Strings.Unbounded;
+with Ada.Command_Line;
+use Ada.Command_Line;
 
 with SeA.Redstore.Servers;
 with SeA.Redstore.Servers.Configs;
@@ -31,7 +33,9 @@ use SeA;
 procedure Query is
 
     function Read_Query return String;
-    procedure Send_Query (Query_Str : String);
+    procedure Send_Query (Query_Str : String;
+                          Format : String;
+                          Lang : String);
 
     function Read_Query return String is
         Ch : Character;
@@ -45,7 +49,9 @@ procedure Query is
         return To_String (Input);
     end Read_Query;
 
-    procedure Send_Query (Query_Str : String) is
+    procedure Send_Query (Query_Str : String;
+                          Format : String;
+                          Lang : String) is
         Server : Redstore.Servers.Server_Type;
         Status_Code : Natural;
 
@@ -53,17 +59,32 @@ procedure Query is
     begin
         Redstore.Servers.Configs.Load ("./run/redstore.conf", Server);
 
-        Server.Query (Query_Str);
+        Server.Query (Query_Str, Format, Lang);
 
         Server.Get_Last_Response (Status_Code, Str_Body);
         Put_Line ("Server response:" & Status_Code'Image);
         Put_Line (To_String (Str_Body));
     end Send_Query;
 
+    Format, Lang : Unbounded_String;
+
 begin
+    if Argument_Count >= 1 then
+        Format := To_Unbounded_String (Argument (1));
+    else
+        Format := To_Unbounded_String ("xml");
+    end if;
+    if Argument_Count >= 2 then
+        Lang := To_Unbounded_String (Argument (2));
+    else
+        Lang := To_Unbounded_String ("laqrs");
+    end if;
+
     declare
         Query_Str : constant String := Read_Query;
     begin
-        Send_Query (Query_Str);
+        Send_Query (Query_Str,
+                    To_String (Format),
+                    To_String (Lang));
     end;
 end Query;

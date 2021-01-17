@@ -84,24 +84,12 @@ package body SeA.Redstore.Templates is
         Field_Name : Unbounded_String;
     begin
         Template.Fields.Clear;
-        Ada.Text_IO.Put_Line (Str);
-
         loop
             Match (Regexp, Str, Matches, Current);
             exit when Matches (0) = No_Match;
 
-            Ada.Text_IO.Put_Line
-              (Current'Image & ":"
-                 & Matches (0).First'Image & "-" & Matches (0).Last'Image);
-            Ada.Text_IO.Put_Line
-              (Current'Image & ":"
-                 & Matches (1).First'Image & "-" & Matches (1).Last'Image);
-
             Field_Name := To_Unbounded_String
               (Str (Matches (1).First .. Matches (1).Last));
-
-            Ada.Text_IO.Put_Line (To_String (Field_Name));
-
             Template.Fields.Include (Field_Name, Empty_Str);
 
             Current := Matches (0).Last + 1;

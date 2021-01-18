@@ -32,59 +32,15 @@ with SeA.Redstore.Templates;
 use SeA.Redstore.Templates;
 
 procedure Template_Apply is
-
-    function Field_Name (Line : String) return String;
-    function Field_Value (Line : String) return String;
-    procedure Gather_Fields;
-
-    Malformed_Input : exception;
     Template : Template_Type;
-
-    function Field_Name (Line : String) return String is
-        Pos : Natural;
-    begin
-        Pos := Index (Line, ":=");
-        if Pos = 0 then
-            raise Malformed_Input with
-              "Expecting: ""field_name := field_value"" input.";
-        end if;
-
-        return Trim (Line (Line'First .. Pos), Both);
-    end Field_Name;
-
-    function Field_Value (Line : String) return String is
-        Pos : Natural;
-    begin
-        Pos := Index (Line, ":=");
-        if Pos = 0 then
-            raise Malformed_Input with
-              "Expecting: ""field_name := field_value"" input.";
-        end if;
-
-        return Trim (Line (Pos + 2 .. Line'Last), Both);
-    end Field_Value;
-
-    procedure Gather_Fields is
-    begin
-        loop
-            declare
-                Line : constant String := Get_Line;
-            begin
-                exit when End_Of_File;
-
-                Template.Add_Value (Field_Name (Line),
-                                    Field_Value (Line));
-            end;
-        end loop;
-    end Gather_Fields;
-
 begin
-    if Argument_Count < 1 then
-        Put_Line ("Synopsis: template_apply TEMPLATE_PATH");
+    if Argument_Count < 2 then
+        Put_Line ("Synopsis: template_apply TEMPLATE_PATH NAMEVALUE_PATH");
         return;
     end if;
 
     Template.Initialize_With_File (Argument (1));
-    Gather_Fields;
+    Template.Read_Value_File (Argument (2));
+
     Put_Line (Template.Apply);
 end Template_Apply;

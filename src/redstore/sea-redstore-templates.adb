@@ -62,7 +62,7 @@ package body SeA.Redstore.Templates is
             while Field_Position > 0 loop
                 Replace_Slice (Applied,
                                Field_Position,
-                               Field_Position + Field'Length,
+                               Field_Position + Field'Length - 1,
                                Value);
                 Field_Position := Index (Applied, Field,
                                          Field_Position + Field'Length);

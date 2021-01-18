@@ -19,6 +19,8 @@
 
 -------------------------------------------------------------------------
 
+with Ada.Strings.Fixed;
+with Ada.Strings;
 with Ada.Text_IO;
 with GNAT.Regpat;
 
@@ -72,6 +74,34 @@ package body SeA.Redstore.Templates is
 
         return Applied;
     end Apply;
+
+    function Field_Name (Line : String) return String is
+        use Ada.Strings;
+        use Ada.Strings.Fixed;
+        Pos : Natural;
+    begin
+        Pos := Index (Line, ":=");
+        if Pos = 0 then
+            raise Malformed_Input with
+              "Expecting: ""field_name := field_value"" input.";
+        end if;
+
+        return Trim (Line (Line'First .. Pos -  1), Both);
+    end Field_Name;
+
+    function Field_Value (Line : String) return String is
+        use Ada.Strings;
+        use Ada.Strings.Fixed;
+        Pos : Natural;
+    begin
+        Pos := Index (Line, ":=");
+        if Pos = 0 then
+            raise Malformed_Input with
+              "Expecting: ""field_name := field_value"" input.";
+        end if;
+
+        return Trim (Line (Pos + 2 .. Line'Last), Both);
+    end Field_Value;
 
     procedure Fill_Fields (Template : in out Template_Type) is
         use GNAT.Regpat;
@@ -153,5 +183,22 @@ package body SeA.Redstore.Templates is
     begin
         Template.Fields.Iterate (Call_Process'Access);
     end Iterate_Fields;
+
+    procedure Read_Value_File (Template : in out Template_Type;
+                               Filepath : String) is
+        use Ada.Text_IO;
+        File : File_Type;
+    begin
+        Open (File, In_File, Filepath);
+        loop
+            declare
+                Line : constant String := Get_Line (File);
+            begin
+                Template.Add_Value (Field_Name (Line), Field_Value (Line));
+                exit when End_Of_File (File);
+            end;
+        end loop;
+        Close (File);
+    end Read_Value_File;
 
 end SeA.Redstore.Templates;

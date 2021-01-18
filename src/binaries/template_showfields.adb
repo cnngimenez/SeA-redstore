@@ -43,13 +43,17 @@ procedure Template_Showfields is
 
     procedure Show_Help is
     begin
-        Put_Line ("Display the fields founded in the template file and their associated value.");
+        Put_Line ("Display the fields founded in the template file and their "
+                    & "associated value.");
         New_Line;
         Put_Line ("Synopsis:");
-        Put_Line ("    template_apply TEMPLATE_FILE_PATH [FIELDVALUE_FILE_PATH]");
+        Put_Line ("    template_apply TEMPLATE_FILE_PATH "
+                    & "[FIELDVALUE_FILE_PATH]");
         New_Line;
-        Put_Line ("TEMPLATE_FILE_PATH is the template with ""|FIELDNAME|"" strings inside the file.");
-        Put_Line ("FIELDVALUE_FILE_PATH is the file with ""FIELDNAME := FIELDVALUE"" strings, one per line.");
+        Put_Line ("TEMPLATE_FILE_PATH is the template with ""|FIELDNAME|"" "
+                    & "strings inside the file.");
+        Put_Line ("FIELDVALUE_FILE_PATH is the file with ""FIELDNAME := "
+                    & "FIELDVALUE"" strings, one per line.");
     end Show_Help;
 
 begin
@@ -59,8 +63,9 @@ begin
     end if;
 
     Template.Initialize_With_File (Argument (1));
-    --  if Argument_Count = 2 then
-    --  Template.Load_Assignments (Argument (2));
-    --  end if;
+    if Argument_Count >= 2 then
+        Template.Read_Value_File (Argument (2));
+    end if;
+
     Template.Iterate_Fields (Put_Field'Access);
 end Template_Showfields;

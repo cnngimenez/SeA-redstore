@@ -30,10 +30,11 @@ project SeA_Redstore_binaries is
   for Object_Dir use ".objs/binaries_objs";
   for Exec_Dir use "bin";
   for Main use (
-              "send_ttl.adb",
-              "query.adb",
-              "template_apply.adb",
-              "template_showfields.adb"
+		"send_ttl.adb",
+		"query.adb",
+		"template_apply.adb",
+		"template_showfields.adb",
+		"template_filler.adb"
               );
 
   package Compiler is

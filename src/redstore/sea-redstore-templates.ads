@@ -50,8 +50,6 @@ package SeA.Redstore.Templates is
     procedure Read_Value_File (Template : in out Template_Type;
                                Filepath : String);
 
-    Malformed_Input : exception;
-
 private
 
     package String_Hash_Pack is new Ada.Containers.Hashed_Maps
@@ -71,15 +69,5 @@ private
 
     --  Reset Fields and add all "|fieldname|" strings founded to it.
     procedure Fill_Fields (Template : in out Template_Type);
-
-    --  Extract the field name from a "NAME := VALUE" line.
-    --
-    --  Raises Malformed_Input exception if ":=" is not founded.
-    function Field_Name (Line : String) return String;
-
-    --  Extract the field value from a "NAME := VALUE" line.
-    --
-    --  Raises Malformed_Input exception if ":=" is not founded.
-    function Field_Value (Line : String) return String;
 
 end SeA.Redstore.Templates;

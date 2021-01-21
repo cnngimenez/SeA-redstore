@@ -25,6 +25,8 @@ with Ada.Command_Line;
 use Ada.Command_Line;
 with Ada.Strings;
 use Ada.Strings;
+with Ada.Strings.Fixed;
+use Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;
 use Ada.Strings.Unbounded;
 
@@ -130,9 +132,12 @@ begin
     end if;
 
     Template.Initialize_With_File (Argument (2));
-    if Argument (3) = "-" then
+
+    if Trim (Argument (3), Both) = "-" then
+        Put_Line ("Reading template field values from STDIN");
         Template.Read_Value_Stdin;
     else
+        Put_Line ("Reading template field values from " & Argument (3) & ".");
         Template.Read_Value_File (Argument (3));
     end if;
 

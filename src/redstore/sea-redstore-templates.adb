@@ -191,7 +191,8 @@ package body SeA.Redstore.Templates is
                 declare
                     Line : constant String := Get_Line;
                 begin
-                    Template.Add_Value (Name, Line);
+                    Template.Fields.Replace_Element
+                      (Position, To_Unbounded_String (Line));
                     exit when Line /= "";
                 end;
             end loop;

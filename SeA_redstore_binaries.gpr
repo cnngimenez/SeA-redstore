@@ -34,7 +34,8 @@ project SeA_Redstore_binaries is
 		"query.adb",
 		"template_apply.adb",
 		"template_showfields.adb",
-		"template_filler.adb"
+		"template_filler.adb",
+                "redstore_command.adb"
               );
 
   package Compiler is

@@ -1,3 +1,4 @@
-http://192.168.1.20:8081/insert
-http://localhost:8081/data/paperworks-instances.ttl
+Host := http://192.168.1.10:8081/insert
+Graph := http://localhost:8081/data/paperworks-instances.ttl
+Base_URI := http://localhost:8081/example/
 

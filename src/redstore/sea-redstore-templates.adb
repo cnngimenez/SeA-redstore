@@ -175,4 +175,30 @@ package body SeA.Redstore.Templates is
         Close (File);
     end Read_Value_File;
 
+    procedure Read_Value_Stdin (Template : in out Template_Type) is
+        use Ada.Text_IO;
+        use String_Hash_Pack;
+
+        procedure Read_Value (Position : Cursor);
+
+        procedure Read_Value (Position : Cursor) is
+            Name : constant String :=
+              To_String (Key (Position));
+        begin
+            Put (Name);
+            Put_Line (" := ");
+            loop
+                declare
+                    Line : constant String := Get_Line;
+                begin
+                    Template.Add_Value (Name, Line);
+                    exit when Line /= "";
+                end;
+            end loop;
+        end Read_Value;
+
+    begin
+        Template.Fields.Iterate (Read_Value'Access);
+    end Read_Value_Stdin;
+
 end SeA.Redstore.Templates;

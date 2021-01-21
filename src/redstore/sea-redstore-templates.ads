@@ -49,6 +49,7 @@ package SeA.Redstore.Templates is
                                            Field_Value : String));
     procedure Read_Value_File (Template : in out Template_Type;
                                Filepath : String);
+    procedure Read_Value_Stdin (Template : in out Template_Type);
 
 private
 

@@ -56,6 +56,12 @@ procedure Redstore_Command is
     begin
         Redstore.Servers.Configs.Load ("./run/redstore.conf", Server);
 
+        Put_Line ("Server configuration:");
+        Put_Line ("- Host: " & Server.Get_Host_URI);
+        Put_Line ("- Graph: " & Server.Get_Graph);
+        Put_Line ("- Base URI: " & Server.Get_Base_URI);
+        New_Line;
+
         Put_Line ("Sending data:");
         Put_Line ("```");
         Put_Line (Template_Data);
@@ -63,10 +69,10 @@ procedure Redstore_Command is
 
         if Command = "query" then
             Put_Line ("Querying...");
-            Put_Line ("Using " & Valid_Format (Query_Format)
-                        & " query format and "
+            Put_Line ("Using 【" & Valid_Format (Query_Format)
+                        & "】 query format and 【"
                         & Valid_Lang (Query_Lang)
-                        & " query language.");
+                        & "】 query language.");
             Server.Query (Template_Data, Valid_Format (Query_Format),
             Valid_Lang (Query_Lang));
         elsif Command = "insert" then

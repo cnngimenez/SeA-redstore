@@ -23,10 +23,6 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 with Ada.Command_Line;
 use Ada.Command_Line;
-with Ada.Strings.Fixed;
-use Ada.Strings.Fixed;
-with Ada.Strings;
-use Ada.Strings;
 
 with SeA.Redstore.Templates;
 use SeA.Redstore.Templates;

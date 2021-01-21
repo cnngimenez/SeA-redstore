@@ -21,6 +21,7 @@
 
 with Ada.Text_IO;
 use Ada.Text_IO;
+with Ada.IO_Exceptions;
 with Ada.Strings.Unbounded;
 use Ada.Strings.Unbounded;
 with Ada.Command_Line;
@@ -36,6 +37,7 @@ procedure Query is
     procedure Send_Query (Query_Str : String;
                           Format : String;
                           Lang : String);
+    procedure Show_Help;
 
     function Read_Query return String is
         Ch : Character;
@@ -46,6 +48,10 @@ procedure Query is
             Append (Input, Ch);
         end loop;
 
+        return To_String (Input);
+
+    exception
+    when Ada.IO_Exceptions.End_Error =>
         return To_String (Input);
     end Read_Query;
 
@@ -66,19 +72,47 @@ procedure Query is
         Put_Line (To_String (Str_Body));
     end Send_Query;
 
+    procedure Show_Help is
+    begin
+        Put_Line ("Make a query to the redstore server.");
+        New_Line;
+        Put_Line ("Synopsis:");
+        Put_Line ("    query [FORMAT] [LANGUAGE]");
+        New_Line;
+        Put_Line ("The query text is entered as standard input.");
+        Put_Line ("- FORMAT :: The results format. table by default. "
+                    & "Redstore usually accepts: xml, json, table, csv, mkr, "
+                    & "tsv, htlm, turtle, rdfxml, ntriples, rdfxml-xmp, "
+                    & "rdfxml-abbrev, rss-1.0, atom, dot, json-triples, "
+                    & "nquads.");
+        Put_Line ("- LANGUAGE :: The query language used. laqrs by default. "
+                    & "Redstore usually accepts: sparql10, sparql, "
+                    & "sparql11-query, sparql11-update, laqrs.");
+    end Show_Help;
+
     Format, Lang : Unbounded_String;
 
 begin
     if Argument_Count >= 1 then
         Format := To_Unbounded_String (Argument (1));
     else
-        Format := To_Unbounded_String ("xml");
+        Format := To_Unbounded_String ("table");
     end if;
     if Argument_Count >= 2 then
         Lang := To_Unbounded_String (Argument (2));
     else
         Lang := To_Unbounded_String ("laqrs");
     end if;
+
+    if Format = "help" or else Format = "--help" then
+        Show_Help;
+        return;
+    end if;
+
+    Put_Line ("Querying using the 【"
+                & To_String (Lang) & "】language and requesting the 【"
+                & To_String (Format) & "】format for answer");
+    New_Line;
 
     declare
         Query_Str : constant String := Read_Query;

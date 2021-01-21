@@ -28,10 +28,14 @@ package body SeA.Redstore.Keyvalueparser is
     function Field_Name (Line : String) return String is
         Pos : Natural;
     begin
+        if Trim (Line, Both) = "" then
+            return "";
+        end if;
+
         Pos := Index (Line, ":=");
         if Pos = 0 then
             raise Malformed_Input with
-              "Expecting: ""field_name := field_value"" input.";
+              "Expecting: ""field_name := field_value"" input in line:" & Line;
         end if;
 
         return Trim (Line (Line'First .. Pos -  1), Both);
@@ -40,10 +44,14 @@ package body SeA.Redstore.Keyvalueparser is
     function Field_Value (Line : String) return String is
         Pos : Natural;
     begin
+        if Trim (Line, Both) = "" then
+            return "";
+        end if;
+
         Pos := Index (Line, ":=");
         if Pos = 0 then
             raise Malformed_Input with
-              "Expecting: ""field_name := field_value"" input.";
+              "Expecting: ""field_name := field_value"" input in line:" & Line;
         end if;
 
         return Trim (Line (Pos + 2 .. Line'Last), Both);

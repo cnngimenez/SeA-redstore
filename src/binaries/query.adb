@@ -65,6 +65,12 @@ procedure Query is
     begin
         Redstore.Servers.Configs.Load ("./run/redstore.conf", Server);
 
+        Put_Line ("Server configuration:");
+        Put_Line ("- Host: " & Server.Get_Host_URI);
+        Put_Line ("- Graph: " & Server.Get_Graph);
+        Put_Line ("- Base URI: " & Server.Get_Base_URI);
+        New_Line;
+
         Server.Query (Query_Str, Format, Lang);
 
         Server.Get_Last_Response (Status_Code, Str_Body);

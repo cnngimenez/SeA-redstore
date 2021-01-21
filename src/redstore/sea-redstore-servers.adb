@@ -58,10 +58,20 @@ package body SeA.Redstore.Servers is
 
     end Delete_TTL;
 
+    function Get_Base_URI (Server : Server_Type) return String is
+    begin
+        return To_String (Server.Base_URI);
+    end Get_Base_URI;
+
     function Get_Graph (Server : Server_Type) return String is
     begin
         return To_String (Server.Graph);
     end Get_Graph;
+
+    function Get_Host_URI (Server : Server_Type) return String is
+    begin
+        return To_String (Server.Host_URI);
+    end Get_Host_URI;
 
     procedure Get_Last_Response (Server : Server_Type;
                                  Status_Code : out Natural;

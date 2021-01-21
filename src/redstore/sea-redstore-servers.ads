@@ -58,6 +58,9 @@ package SeA.Redstore.Servers is
     procedure Set_Graph (Server : in out Server_Type;
                          Graph : String);
 
+    function Get_Base_URI (Server : Server_Type) return String;
+    function Get_Host_URI (Server : Server_Type) return String;
+
     --  ----------
     --  Exceptions
     --  ----------

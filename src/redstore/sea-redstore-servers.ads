@@ -45,13 +45,22 @@ package SeA.Redstore.Servers is
     --                          Sparql : String;
     --                          Results : out String);
 
+    --  ----------
+    --  Getters and setters
+    --  ----------
+
     --  Get the last response information.
     procedure Get_Last_Response (Server : Server_Type;
                                  Status_Code : out Natural;
                                  Str_Body : out Unbounded_String);
 
+    function Get_Graph (Server : Server_Type) return String;
     procedure Set_Graph (Server : in out Server_Type;
                          Graph : String);
+
+    --  ----------
+    --  Exceptions
+    --  ----------
 
     Redstore_Answer_Error : exception;
 

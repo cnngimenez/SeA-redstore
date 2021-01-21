@@ -23,29 +23,37 @@ with Ada.Text_IO;
 use Ada.Text_IO;
 with Ada.Directories;
 
+with SeA.Redstore.Keyvalueparser;
+
 package body SeA.Redstore.Servers.Configs is
 
     procedure Load (Filepath : String; Server : out Server_Type) is
+        use SeA.Redstore.Keyvalueparser;
         File : File_Type;
     begin
         if not Ada.Directories.Exists (Filepath) then
-            return;
+            raise Config_File_Not_Founded with
+              "The configuration file """
+                & Filepath & """ has not been founded";
         end if;
 
         Open (File, In_File, Filepath);
 
-        declare
-            Host : constant String := Get_Line (File);
-            Graph : constant String := Get_Line (File);
-            Base_URI : constant String := Get_Line (File);
-        begin
-            --  Put_Line (Host);
-            --  Put_Line (Graph);
-            --  Put_Line (Base_URI);
-            Server.Host_URI := To_Unbounded_String (Host);
-            Server.Graph := To_Unbounded_String (Graph);
-            Server.Base_URI := To_Unbounded_String (Base_URI);
-        end;
+        while not End_Of_File (File) loop
+            declare
+                Line : constant String := Get_Line (File);
+                Field : constant String := Field_Name (Line);
+                Value : constant String := Field_Value (Line);
+            begin
+                if Field = "Host" then
+                    Server.Host_URI := To_Unbounded_String (Value);
+                elsif Field = "Graph" then
+                    Server.Graph := To_Unbounded_String (Value);
+                elsif Field = "Base_URI" then
+                    Server.Base_URI := To_Unbounded_String (Value);
+                end if;
+            end;
+        end loop;
 
         Close (File);
     end Load;

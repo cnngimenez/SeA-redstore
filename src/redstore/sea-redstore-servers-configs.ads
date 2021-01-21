@@ -24,4 +24,6 @@ package SeA.Redstore.Servers.Configs is
     procedure Load (Filepath : String; Server : out Server_Type);
     procedure Save (Server : Server_Type; Filepath : String);
 
+    Config_File_Not_Founded : exception;
+
 end SeA.Redstore.Servers.Configs;

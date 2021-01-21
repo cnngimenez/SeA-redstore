@@ -58,6 +58,11 @@ package body SeA.Redstore.Servers is
 
     end Delete_TTL;
 
+    function Get_Graph (Server : Server_Type) return String is
+    begin
+        return To_String (Server.Graph);
+    end Get_Graph;
+
     procedure Get_Last_Response (Server : Server_Type;
                                  Status_Code : out Natural;
                                  Str_Body : out Unbounded_String) is
